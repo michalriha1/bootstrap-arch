@@ -24,13 +24,13 @@ MODULES=(
     20-cli/neovim
     20-cli/fd
     20-cli/zoxide
-    20-cli/wezterm
     30-desktop/hyprland
     30-desktop/keyd
     30-desktop/power
     30-desktop/fonts
     30-desktop/ddcutil
     30-desktop/wireless-regdb
+    30-desktop/wezterm
     30-desktop/apps
     40-user/ssh
 )
@@ -80,6 +80,15 @@ main() {
     success "Bootstrap complete!"
     echo "============================================"
     info "Log file: $LOG_FILE"
+
+    echo ""
+    read -r -p "Reboot now to apply all changes? [y/N] " reply
+    if [[ "$reply" =~ ^[Yy]$ ]]; then
+        info "Rebooting..."
+        sudo systemctl reboot
+    else
+        info "Skipping reboot. Remember to reboot (or at least re-login) to pick up group/shell/mkinitcpio changes."
+    fi
 }
 
 main "$@"

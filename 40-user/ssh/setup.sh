@@ -4,10 +4,12 @@ source "${BOOTSTRAP_ROOT}/lib.sh"
 
 ssh_key="${HOME}/.ssh/id_ed25519"
 
-mkdir -p "${HOME}/.ssh"
-backup_path "$ssh_key"
-backup_path "${ssh_key}.pub"
+if [[ -f "$ssh_key" ]]; then
+    skip "SSH key already exists at $ssh_key"
+    exit 0
+fi
 
 info "Generating SSH key..."
+mkdir -p "${HOME}/.ssh"
 ssh-keygen -t ed25519 -f "$ssh_key" -N ""
 success "SSH key generated at $ssh_key"
