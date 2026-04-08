@@ -9,5 +9,5 @@ wezterm_config="${HOME}/.config/wezterm"
 backup_path "$wezterm_config"
 
 info "Setting up Wezterm config..."
-git clone https://github.com/michalriha/wez.git "$wezterm_config"
+git clone https://github.com/michalriha1/wez.git "$wezterm_config"
 success "Wezterm config installed"
