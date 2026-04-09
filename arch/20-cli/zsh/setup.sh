@@ -28,28 +28,30 @@ else
 fi
 
 # extra plugins
-for repo in \
-    "https://github.com/zsh-users/zsh-autosuggestions" \
-    "https://github.com/zsh-users/zsh-syntax-highlighting"; do
-    name="$(basename "$repo")"
-    dest="${zsh_custom}/plugins/${name}"
-    if [[ ! -d "$dest" ]]; then
-        info "Cloning $name..."
-        git clone --depth=1 "$repo" "$dest"
-        success "$name cloned"
-    else
-        skip "$name already cloned"
-    fi
-done
+zsh_autosuggestions_dir="${zsh_custom}/plugins/zsh-autosuggestions"
+if [[ ! -d "$zsh_autosuggestions_dir" ]]; then
+    info "Cloning zsh-autosuggestions..."
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_autosuggestions_dir"
+    success "zsh-autosuggestions cloned"
+else
+    skip "zsh-autosuggestions already cloned"
+fi
+
+zsh_syntax_highlighting_dir="${zsh_custom}/plugins/zsh-syntax-highlighting"
+if [[ ! -d "$zsh_syntax_highlighting_dir" ]]; then
+    info "Cloning zsh-syntax-highlighting..."
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting "$zsh_syntax_highlighting_dir"
+    success "zsh-syntax-highlighting cloned"
+else
+    skip "zsh-syntax-highlighting already cloned"
+fi
 
 # configs
-backup_path "${HOME}/.zshrc"
-cp "${MODULE_DIR}/config/zshrc" "${HOME}/.zshrc"
-success ".zshrc deployed"
+dotfiles_dir="${BOOTSTRAP_ROOT}/../dotfiles"
 
-backup_path "${HOME}/.p10k.zsh"
-cp "${MODULE_DIR}/config/p10k.zsh" "${HOME}/.p10k.zsh"
-success ".p10k.zsh deployed"
+info "Stowing zsh config..."
+stow --dir "$dotfiles_dir" --target "$HOME" --restow zsh
+success "zsh config stowed"
 
 # default login shell
 zsh_bin="$(command -v zsh)"

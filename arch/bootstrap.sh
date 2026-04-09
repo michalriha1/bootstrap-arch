@@ -20,6 +20,7 @@ MODULES=(
     00-base/paru
     10-boot/plymouth
     10-boot/seamless-login
+    20-cli/stow
     20-cli/zsh
     20-cli/neovim
     20-cli/fd
